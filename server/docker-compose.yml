@@ -1,0 +1,25 @@
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=${PORT:-3000}
+      - MONGODB_URI=mongodb://mongo:27017/youtube-api
+      - YOUTUBE_API_KEY=${YOUTUBE_API_KEY}
+      - SEARCH_QUERY=${SEARCH_QUERY:-official}
+      - FETCH_INTERVAL=${FETCH_INTERVAL:-10000}
+    depends_on:
+      - mongo
+    restart: unless-stopped
+
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    restart: unless-stopped
+
+volumes:
+  mongo-data:
