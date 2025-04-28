@@ -27,10 +27,18 @@ const fetchVideosFromYouTube = async (query = SEARCH_QUERY, pageToken = null) =>
       params.pageToken = pageToken;
     }
 
+
     const response = await axios.get(YOUTUBE_API_URL, { params });
     return response.data;
   } catch (error) {
-    console.error('Error fetching videos from YouTube:', error.message);
+    if (error.response) {
+      // The request was made and the server responded with a status code
+      console.error('YouTube API Error Details:', {
+        status: error.response.status,
+        data: error.response.data,
+        headers: error.response.headers
+      });
+    }
     throw error;
   }
 };
