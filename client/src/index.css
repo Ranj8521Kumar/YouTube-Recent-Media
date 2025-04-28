@@ -1,3 +1,18 @@
+/**
+ * index.css
+ *
+ * Main stylesheet for the application.
+ * This file imports Tailwind CSS utility classes.
+ *
+ * Tailwind is a utility-first CSS framework that provides low-level utility classes
+ * to build custom designs without writing custom CSS.
+ */
+
+/* Import Tailwind's base styles */
 @tailwind base;
+
+/* Import Tailwind's component classes */
 @tailwind components;
+
+/* Import Tailwind's utility classes */
 @tailwind utilities;
