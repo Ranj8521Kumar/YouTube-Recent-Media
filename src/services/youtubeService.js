@@ -1,5 +1,6 @@
 const axios = require('axios');
 const Video = require('../models/Video');
+const keyManager = require('./apiKeyManager');
 require('dotenv').config();
 
 const YOUTUBE_API_URL = 'https://www.googleapis.com/youtube/v3/search';
@@ -13,36 +14,60 @@ const SEARCH_QUERY = process.env.SEARCH_QUERY || 'official';
  * @returns {Promise<Object>} - YouTube API response
  */
 const fetchVideosFromYouTube = async (query = SEARCH_QUERY, pageToken = null) => {
+  if (!keyManager.hasAvailableKeys()) {
+    throw new Error('All API keys are exhausted. Please try again later.');
+  }
+
+  const currentKey = keyManager.getCurrentKey();
+  
+  // Debug logging
+  console.log('Query:', query);
+  console.log('Using API key:', currentKey.slice(0, 8) + '...');
+
   try {
-    const params = {
+    const params = new URLSearchParams({
       part: 'snippet',
       q: query,
-      key: YOUTUBE_API_KEY,
+      key: currentKey,
       maxResults: 50,
       type: 'video',
-      order: 'date',
-    };
+      order: 'date'
+    });
 
     if (pageToken) {
-      params.pageToken = pageToken;
+      params.append('pageToken', pageToken);
     }
 
+    // Log the full URL (with key redacted) for debugging
+    const debugUrl = `${YOUTUBE_API_URL}?${params.toString().replace(currentKey, 'REDACTED')}`;
+    console.log('Request URL:', debugUrl);
 
-    const response = await axios.get(YOUTUBE_API_URL, { params });
+    const response = await axios.get(YOUTUBE_API_URL, { 
+      params,
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    });
+    
     return response.data;
   } catch (error) {
-    if (error.response) {
-      // The request was made and the server responded with a status code
-      console.error('YouTube API Error Details:', {
-        status: error.response.status,
-        data: error.response.data,
-        headers: error.response.headers
-      });
+    console.error('Full error details:', {
+      status: error.response?.status,
+      data: error.response?.data,
+      headers: error.response?.headers
+    });
+
+    if (error.response?.status === 403) {
+      keyManager.markKeyAsExhausted();
+      if (keyManager.hasAvailableKeys()) {
+        console.log('Retrying with next key...');
+        return fetchVideosFromYouTube(query, pageToken);
+      }
     }
     throw error;
   }
 };
-
 /**
  * Save videos to database
  * @param {Array} videos - Array of video objects from YouTube API
