@@ -139,7 +139,7 @@ const Dashboard = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">YouTube Videos Dashboard</h1>
+      <h1 className="text-2xl font-bold mb-4 text-center">Latest YouTube Videos</h1>
 
       {/* Filters Section - Allows filtering videos by title, channel, and date range */}
       <div className="bg-white p-4 rounded shadow mb-4">
