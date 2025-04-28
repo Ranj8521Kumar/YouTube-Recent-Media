@@ -1,10 +1,36 @@
+/**
+ * Video Controller Module
+ *
+ * Handles all HTTP requests related to videos, including
+ * retrieving videos with pagination and filtering, and
+ * searching videos by title and description.
+ *
+ * @module controllers/videoController
+ */
+
 const Video = require('../models/Video');
 
 /**
  * Get videos with pagination and optional dashboard filters
+ *
+ * Retrieves videos from the database with support for pagination,
+ * sorting, and filtering by various criteria. This endpoint powers
+ * both the main video listing and the dashboard filtering functionality.
+ *
+ * @async
+ * @function getVideos
  * @param {Object} req - Express request object
+ * @param {Object} req.query - Query parameters
+ * @param {number} [req.query.page=1] - Page number for pagination
+ * @param {number} [req.query.limit=10] - Number of videos per page
+ * @param {string} [req.query.sortBy='publishedAt'] - Field to sort by
+ * @param {string} [req.query.sortOrder='desc'] - Sort order (asc or desc)
+ * @param {string} [req.query.channelTitle] - Filter by channel title
+ * @param {string} [req.query.dateFrom] - Filter by date from (ISO format)
+ * @param {string} [req.query.dateTo] - Filter by date to (ISO format)
+ * @param {string} [req.query.title] - Filter by video title
  * @param {Object} res - Express response object
- * @returns {Object} - JSON response with videos
+ * @returns {Object} - JSON response with videos and pagination metadata
  */
 const getVideos = async (req, res) => {
   try {
@@ -104,14 +130,25 @@ const getVideos = async (req, res) => {
 
 /**
  * Search videos by title and description
+ *
+ * Performs a text search on the video collection using MongoDB's
+ * text index capabilities. Results are sorted by relevance score
+ * and then by publish date.
+ *
+ * @async
+ * @function searchVideos
  * @param {Object} req - Express request object
+ * @param {Object} req.query - Query parameters
+ * @param {string} req.query.q - Search query term
+ * @param {number} [req.query.page=1] - Page number for pagination
+ * @param {number} [req.query.limit=10] - Number of videos per page
  * @param {Object} res - Express response object
- * @returns {Object} - JSON response with search results
+ * @returns {Object} - JSON response with search results and pagination metadata
  */
 const searchVideos = async (req, res) => {
   try {
     const searchTerm = req.query.q;
-    
+
     // Validate search term
     if (!searchTerm) {
       return res.status(400).json({
@@ -160,6 +197,10 @@ const searchVideos = async (req, res) => {
   }
 };
 
+/**
+ * Export controller functions
+ * @type {Object}
+ */
 module.exports = {
   getVideos,
   searchVideos,
