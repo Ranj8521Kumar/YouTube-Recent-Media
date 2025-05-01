@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: youtube-api-backend
+    env: node
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: PORT
+        value: 3000
+      - key: MONGODB_URI
+        fromDatabase:
+          name: youtube-api-db
+          property: connectionString
+      - key: YOUTUBE_API_KEY
+        sync: false
+      - key: SEARCH_QUERY
+        value: official
+      - key: FETCH_INTERVAL
+        value: 10000
+
+databases:
+  - name: youtube-api-db
+    databaseName: youtube-api
+    plan: free
