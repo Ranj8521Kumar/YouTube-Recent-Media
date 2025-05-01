@@ -6,4 +6,4 @@ services:
     staticPublishPath: ./dist
     envVars:
       - key: VITE_API_URL
-        value: https://youtube-api-backend.onrender.com
+        value: https://youtube-recent-videos.onrender.com
