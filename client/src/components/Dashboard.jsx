@@ -62,7 +62,7 @@ const Dashboard = () => {
       });
 
       // Make API request to fetch videos
-      const response = await fetch(`https://youtube-api-backend.onrender.com/api/videos?${queryParams}`);
+      const response = await fetch(`https://youtube-recent-videos.onrender.com//api/videos?${queryParams}`);
       const data = await response.json();
 
       // Update state with fetched data if successful
