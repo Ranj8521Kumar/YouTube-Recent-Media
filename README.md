@@ -4,6 +4,11 @@ A full-stack application to fetch, store, and explore YouTube videos. The applic
 
 ![YouTube Video Explorer](https://via.placeholder.com/800x400?text=YouTube+Video+Explorer)
 
+## Live Demo
+The application is deployed and can be accessed at:
+- Frontend: [YouTube Video Explorer](https://youtube-recent-videos-1.onrender.com)
+- Backend API: [API Endpoint](https://youtube-recent-videos.onrender.com)
+
 ## Project Overview
 
 This project provides a platform to:
@@ -60,7 +65,7 @@ youtube-api/
 ## Getting Started
 
 ### Prerequisites
-- Node.js (v14 or higher)
+- Node.js (v18 or higher)
 - MongoDB (local or remote)
 - YouTube Data API v3 key
 
@@ -117,7 +122,7 @@ GET /api/videos
 
 Query Parameters:
 - `page` (optional): Page number (default: 1)
-- `limit` (optional): Number of videos per page (default: 10)
+- `limit` (optional): Number of videos per page (default: 12)
 - `sortBy` (optional): Field to sort by (default: 'publishedAt')
 - `sortOrder` (optional): Sort order (asc or desc, default: 'desc')
 - `channelTitle` (optional): Filter by channel title
@@ -149,17 +154,19 @@ Query Parameters:
 - **Responsive Design**: Works on desktop and mobile devices
 - **Video Grid**: Displays videos in a grid layout with thumbnails
 - **Search Functionality**: Search videos by title and description
-- **Filtering Options**: Filter videos by date, channel, etc.
+- **Advanced Filtering**: Filter videos by title, channel, and date range
+- **Flexible Sorting**: Sort videos by publish date, title, or channel in ascending or descending order
 - **Pagination Controls**: Navigate through pages of results
-- **Video Details**: View detailed information about each video
+- **Video Modal**: View detailed information and watch videos directly in the application
+- **Interactive UI**: Hover effects and smooth transitions for better user experience
 
 ## Deployment
 
 ### Backend
-The backend can be deployed using Docker to any cloud provider that supports Docker containers (AWS, Google Cloud, Azure, etc.).
+The backend is deployed on [Render](https://render.com) using the configuration in `server/render.yaml`. It can also be deployed using Docker to any cloud provider that supports Docker containers (AWS, Google Cloud, Azure, etc.).
 
 ### Frontend
-The frontend can be deployed to static hosting services like Netlify, Vercel, or GitHub Pages.
+The frontend is deployed on [Netlify](https://netlify.com). It can also be deployed to other static hosting services like Vercel or GitHub Pages.
 
 ## Contributing
 Contributions are welcome! Please feel free to submit a Pull Request.
@@ -173,3 +180,5 @@ This project is licensed under the ISC License.
 - [Express](https://expressjs.com/)
 - [React](https://reactjs.org/)
 - [TailwindCSS](https://tailwindcss.com/)
+- [Vite](https://vitejs.dev/)
+- [Render](https://render.com/)
